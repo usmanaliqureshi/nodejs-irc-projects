@@ -1,0 +1,17 @@
+{
+  "name": "v-bot",
+  "version": "1.0.0",
+  "description": "Virtual Host Service Bot",
+  "main": "v.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "vhost",
+    "irc",
+    "hostname"
+  ],
+  "author": "Usman Ali Qureshi",
+  "license": "ISC"
+}
