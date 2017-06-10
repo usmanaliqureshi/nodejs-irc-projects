@@ -68,3 +68,6 @@ resources/sass/HTML
 resources/sass/Rails
 HTML
 Rails
+
+# Credentials File
+credentials.json
