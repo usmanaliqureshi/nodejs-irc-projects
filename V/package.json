@@ -13,5 +13,8 @@
     "hostname"
   ],
   "author": "Usman Ali Qureshi",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "irc": "^0.5.2"
+  }
 }
