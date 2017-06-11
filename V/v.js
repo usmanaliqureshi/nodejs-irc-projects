@@ -84,7 +84,7 @@ vbot.addListener('pm', function(nick, text, message) {
 
 	vbot.whois(nick, function(info) {
 
-		var result = findMatchingWords(info.host, "users.nationchat.org");
+	var result = findMatchingWords(info.host, "users.nationchat.org");
 
         if ( result == 'users.nationchat.org' ) {
 
