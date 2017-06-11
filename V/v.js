@@ -4,6 +4,10 @@ var fs = require("fs");
 
 var vbot = new irc.Client('newyork.nationchat.org', 'V', {
 
+	userName: 'request',
+
+    realName: 'Virtual Host Request Service',
+
     channels: ['#N-Bots'],
 
 });
