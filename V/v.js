@@ -80,8 +80,60 @@ vbot.addListener('message#', function(from, to, message) {
 
 });
 
+vbot.addListener('pm', function(nick, text, message) {
+
+	vbot.whois(nick, function(info) {
+
+		var result = findMatchingWords(info.host, "users.nationchat.org");
+
+        if ( result == 'users.nationchat.org' ) {
+
+        	msg = text.split(" ")
+
+        	switch( msg[0] ) {
+
+        		case "request":
+
+	        		vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
+
+	        		vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
+
+	        		vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
+
+	        		vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
+
+	        		break;
+
+	        	default:
+
+	        		return;
+
+        	}
+
+        } else {
+
+        	vbot.notice(nick, 'You must be logged in to request a vhost.');
+
+        	vbot.notice(nick, 'If you are logged in then type /mode ' + nick + ' +x to hide your host and then try again.');
+
+        }
+
+	});
+
+});
+
+function findMatchingWords(t, s) {
+
+    var re = new RegExp("\\w*"+s+"\\w*", "g");
+
+    return t.match(re);
+
+}
+
 vbot.addListener('error', function(message) {
 
     console.log('error: ', message);
+
+
 
 });
