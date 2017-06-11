@@ -5,6 +5,25 @@ var irc = require("irc");
 
 var fs = require("fs");
 
+var mysql = require("mysql");
+
+var credentials = require("./credentials.json");
+
+/**
+ * Connecting to MySQL Database and selecting the Database
+ */
+var con = mysql.createConnection({
+
+    host: "localhost",
+
+    user: credentials.MySQL_USERNAME,
+
+    password: credentials.MySQL_PASSWORD,
+
+    database: credentials.MySQL_DATABASE
+
+});
+
 /**
  * Instantiating the bot
  */
@@ -119,25 +138,44 @@ vbot.addListener('pm', function(nick, text, message) {
 
         	msg = text.split(" ")
 
-        	switch( msg[0] ) {
+        	switch (msg[0]) {
 
-        		case "request":
+        	    case "request":
 
-	        		vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
+        	        var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
 
-	        		vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
+        	        con.query(sql, function(err, result) {
 
-	        		vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
+        	            if (typeof result != "undefined" && result != null && result.length != null && result.length > 0) {
 
-	        		vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
+        	                vbot.notice(nick, 'The vhost you are requesting has been assigned to a different user. Please request a different vhost.');
 
-	        		break;
+        	            } else {
 
-	        	default:
+        	                vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
 
-	        		return;
+        	                vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
+
+        	                vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
+
+        	                vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
+
+        	                var sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
+
+        	                con.query(sql, function(error, result) {
+
+        	                    if (error) console.log(error);
+
+        	                });
+
+        	            }
+
+        	        });
+
+        	    break;
 
         	}
+
 
         } else {
 
