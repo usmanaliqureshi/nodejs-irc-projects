@@ -24,6 +24,8 @@ vbot.addListener('registered', function() {
 
 		vbot.send('mode', vbot.nick, '+oiwksgxnIWazrh');
 
+		vbot.join('#services ' + credentials.servicekey);
+
 	});
 
 });
