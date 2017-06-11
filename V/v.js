@@ -8,7 +8,9 @@ var vbot = new irc.Client('newyork.nationchat.org', 'V', {
 
     realName: 'Virtual Host Request Service',
 
-    channels: ['#N-Bots'],
+    channels: ['#Help', '#services'],
+
+    autoRejoin: true,
 
 });
 
