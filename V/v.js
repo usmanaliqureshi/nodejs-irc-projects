@@ -117,7 +117,7 @@ vbot.addListener('message#', function(from, to, message) {
 });
 
 /**
- * Thi sis the request handler which processes the vhost request for the user who requested it by the command /msg V request host password
+ * This is the request handler which processes the vhost request for the user who requested it by the command /msg V request host password
  * @param  nick     [nickname of the user who sent the private message]
  * @param  text     [the message sent by the nick]
  * @param  message  [message]
@@ -140,6 +140,8 @@ vbot.addListener('pm', function(nick, text, message) {
                     var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
 
                     con.query(sql, function(err, result) {
+
+                        if (err) console.log(err);
 
                         if (typeof result != "undefined" && result != null && result.length != null && result.length > 0) {
 
