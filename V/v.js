@@ -1,3 +1,6 @@
+/**
+ * Including required NodeJS Modules
+ */
 var irc = require("irc");
 
 var fs = require("fs");
@@ -165,7 +168,5 @@ function detectuserhost(userhost, hostmask) {
 vbot.addListener('error', function(message) {
 
     console.log('error: ', message);
-
-
 
 });
