@@ -29,7 +29,7 @@ var con = mysql.createConnection({
  */
 var vbot = new irc.Client('newyork.nationchat.org', 'V', {
 
-	userName: 'request',
+    userName: 'request',
 
     realName: 'Virtual Host Request Service',
 
@@ -63,11 +63,11 @@ vbot.addListener('registered', function() {
  */
 vbot.addListener('join', function(channel, nick, message) {
 
-	if ( nick === vbot.nick ) {
+    if (nick === vbot.nick) {
 
-		vbot.send('opmode', channel, '+o', nick);
+        vbot.send('opmode', channel, '+o', nick);
 
-	}
+    }
 
 });
 
@@ -80,39 +80,39 @@ vbot.addListener('join', function(channel, nick, message) {
  */
 vbot.addListener('message#', function(from, to, message) {
 
-	vbot.whois(from, function(info) {
+    vbot.whois(from, function(info) {
 
-		if ( (info.nick == 'BOSS') && (info.user == 'BOSS') && (info.host == 'The.BOSS') ) {
+        if ((info.nick == 'BOSS') && (info.user == 'BOSS') && (info.host == 'The.BOSS')) {
 
-			if ( (message === '.op') && (to = '#N-Bots') ) {
+            if ((message === '.op') && (to = '#N-Bots')) {
 
-				console.log('OPPED ' + from + ' in ' + to + ' - USER VERIFIED');
+                console.log('OPPED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '+o', from);
+                vbot.send('MODE', to, '+o', from);
 
-			} else if ( (message === '.deop') && (to = '#N-Bots') ) {
+            } else if ((message === '.deop') && (to = '#N-Bots')) {
 
-				console.log('DEOPPED ' + from + ' in ' + to + ' - USER VERIFIED');
+                console.log('DEOPPED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '-o', from);
+                vbot.send('MODE', to, '-o', from);
 
-			} else if ( (message === '.voice') && (to = '#N-Bots') ) {
+            } else if ((message === '.voice') && (to = '#N-Bots')) {
 
-				console.log('VOICED ' + from + ' in ' + to + ' - USER VERIFIED');
+                console.log('VOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '+v', from);
+                vbot.send('MODE', to, '+v', from);
 
-			} else if ( (message === '.devoice') && (to = '#N-Bots') ) {
+            } else if ((message === '.devoice') && (to = '#N-Bots')) {
 
-				console.log('DEVOICED ' + from + ' in ' + to + ' - USER VERIFIED');
+                console.log('DEVOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '-v', from);
+                vbot.send('MODE', to, '-v', from);
 
-			}
+            }
 
-		}
+        }
 
-	});
+    });
 
 });
 
@@ -125,62 +125,62 @@ vbot.addListener('message#', function(from, to, message) {
  */
 vbot.addListener('pm', function(nick, text, message) {
 
-	vbot.whois(nick, function(info) {
+    vbot.whois(nick, function(info) {
 
-	var result = detectuserhost(info.host, "users.nationchat.org");
+        var result = detectuserhost(info.host, "users.nationchat.org");
 
-        if ( result == 'users.nationchat.org' ) {
+        if (result == 'users.nationchat.org') {
 
-        	msg = text.split(" ")
+            msg = text.split(" ")
 
-        	switch (msg[0]) {
+            switch (msg[0]) {
 
-        	    case "request":
+                case "request":
 
-        	        var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
+                    var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
 
-        	        con.query(sql, function(err, result) {
+                    con.query(sql, function(err, result) {
 
-        	            if (typeof result != "undefined" && result != null && result.length != null && result.length > 0) {
+                        if (typeof result != "undefined" && result != null && result.length != null && result.length > 0) {
 
-        	                vbot.notice(nick, 'The vhost you are requesting has been assigned to a different user. Please request a different vhost.');
+                            vbot.notice(nick, 'The vhost you are requesting has been assigned to a different user. Please request a different vhost.');
 
-        	            } else {
+                        } else {
 
-        	                vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
+                            vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
 
-        	                vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
+                            vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
 
-        	                vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
+                            vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
 
-        	                vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
+                            vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
 
-        	                var sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
+                            var sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
 
-        	                con.query(sql, function(error, result) {
+                            con.query(sql, function(error, result) {
 
-        	                    if (error) console.log(error);
+                                if (error) console.log(error);
 
-        	                });
+                            });
 
-        	            }
+                        }
 
-        	        });
+                    });
 
-        	    break;
+                    break;
 
-        	}
+            }
 
 
         } else {
 
-        	vbot.notice(nick, 'You must be logged in to request a vhost.');
+            vbot.notice(nick, 'You must be logged in to request a vhost.');
 
-        	vbot.notice(nick, 'If you are logged in then type /mode ' + nick + ' +x to hide your host and then try again.');
+            vbot.notice(nick, 'If you are logged in then type /mode ' + nick + ' +x to hide your host and then try again.');
 
         }
 
-	});
+    });
 
 });
 
@@ -192,7 +192,7 @@ vbot.addListener('pm', function(nick, text, message) {
  */
 function detectuserhost(userhost, hostmask) {
 
-    var matchfound = new RegExp("\\w*"+hostmask+"\\w*", "g");
+    var matchfound = new RegExp("\\w*" + hostmask + "\\w*", "g");
 
     return userhost.match(matchfound);
 
