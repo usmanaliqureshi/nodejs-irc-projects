@@ -44,21 +44,16 @@ var vbot = new irc.Client('newyork.nationchat.org', 'V', {
  */
 vbot.addListener('registered', function() {
 
-	fs.readFile('./credentials.json', 'utf-8', function(error, credentials) {
+    vbot.send('oper', credentials.login, credentials.password);
 
-		credentials =  JSON.parse(credentials);
+    vbot.send('sethost', 'request', 'vhost.service');
 
-		vbot.send('oper', credentials.login, credentials.password);
+    vbot.send('mode', vbot.nick, '+oiwksgxnIWazrh');
 
-		vbot.send('sethost', 'request', 'vhost.service');
-
-		vbot.send('mode', vbot.nick, '+oiwksgxnIWazrh');
-
-		vbot.join('#services ' + credentials.servicekey);
-
-	});
+    vbot.join('#services ' + credentials.servicekey);
 
 });
+
 
 /**
  * The bot will give itself an operator status ( +o )
