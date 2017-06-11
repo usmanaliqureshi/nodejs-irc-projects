@@ -2,6 +2,9 @@ var irc = require("irc");
 
 var fs = require("fs");
 
+/**
+ * Instantiating the bot
+ */
 var vbot = new irc.Client('newyork.nationchat.org', 'V', {
 
 	userName: 'request',
@@ -14,6 +17,9 @@ var vbot = new irc.Client('newyork.nationchat.org', 'V', {
 
 });
 
+/**
+ * Commands on successful connection to the IRC Network
+ */
 vbot.addListener('registered', function() {
 
 	fs.readFile('./credentials.json', 'utf-8', function(error, credentials) {
@@ -32,6 +38,12 @@ vbot.addListener('registered', function() {
 
 });
 
+/**
+ * The bot will give itself an operator status ( +o )
+ * @param  channel  [the irc channel which the bot just joined]
+ * @param  nick     [nick to detect]
+ * @param  message) { if ( nick === botnick [then the bot will give itself an operator status]
+ */
 vbot.addListener('join', function(channel, nick, message) {
 
 	if ( nick === vbot.nick ) {
@@ -42,6 +54,13 @@ vbot.addListener('join', function(channel, nick, message) {
 
 });
 
+/**
+ * Some basic bot commands for the owner of the bot
+ * @param  from       [the nickname of the user who sent the message]
+ * @param  to         [channel in which the message appeared]
+ * @param  message    [message to be detected]
+ * @return [response] [based on the command detected]
+ */
 vbot.addListener('message#', function(from, to, message) {
 
 	vbot.whois(from, function(info) {
@@ -80,11 +99,18 @@ vbot.addListener('message#', function(from, to, message) {
 
 });
 
+/**
+ * Thi sis the request handler which processes the vhost request for the user who requested it by the command /msg V request host password
+ * @param  nick     [nickname of the user who sent the private message]
+ * @param  text     [the message sent by the nick]
+ * @param  message  [message]
+ * @return [notice] [based on the hostname process]
+ */
 vbot.addListener('pm', function(nick, text, message) {
 
 	vbot.whois(nick, function(info) {
 
-	var result = findMatchingWords(info.host, "users.nationchat.org");
+	var result = detectuserhost(info.host, "users.nationchat.org");
 
         if ( result == 'users.nationchat.org' ) {
 
@@ -122,11 +148,17 @@ vbot.addListener('pm', function(nick, text, message) {
 
 });
 
-function findMatchingWords(t, s) {
+/**
+ * A case sensitive regular expression
+ * @param  userhost    [expression to be matched in]
+ * @param  hostmask    [expression to match]
+ * @return matchfound  [returning the match found]
+ */
+function detectuserhost(userhost, hostmask) {
 
-    var re = new RegExp("\\w*"+s+"\\w*", "g");
+    var matchfound = new RegExp("\\w*"+hostmask+"\\w*", "g");
 
-    return t.match(re);
+    return userhost.match(matchfound);
 
 }
 
