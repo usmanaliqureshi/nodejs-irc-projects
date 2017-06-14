@@ -48,9 +48,17 @@ vbot.addListener('registered', function() {
 
     vbot.send('sethost', 'request', 'vhost.service');
 
-    vbot.send('mode', vbot.nick, '+oiwksgxnIWazrh');
+    vbot.send('mode', vbot.nick, '+oiwsgxnIWazrh');
 
     vbot.join('#services ' + credentials.servicekey);
+
+    if (vbot.nick != 'V') {
+
+        vbot.send('kill', 'V', 'Nick Chaser killed by V');
+
+        vbot.send('nick', 'V');
+
+    }
 
 });
 
