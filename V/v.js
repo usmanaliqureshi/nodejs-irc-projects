@@ -62,7 +62,13 @@ vbot.addListener('registered', function() {
 
 vbot.addListener('kill', function (nick, reason, channels, message) {
 
-    if (nick == 'V') vbot.send('nick', 'V');
+    if (nick == 'V') setTimeout(function(){ 
+        
+        vbot.send('nick', 'V');
+
+        console.log('Nick Chased');
+
+     }, 3000);
 
 });
 
