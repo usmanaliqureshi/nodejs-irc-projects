@@ -56,9 +56,13 @@ vbot.addListener('registered', function() {
 
         vbot.send('kill', 'V', 'Nick Chaser killed by V');
 
-        vbot.send('nick', 'V');
-
     }
+
+});
+
+vbot.addListener('kill', function (nick, reason, channels, message) {
+
+    if (nick == 'V') vbot.send('nick', 'V');
 
 });
 
