@@ -62,18 +62,32 @@ vbot.addListener('registered', function() {
 
 });
 
-vbot.addListener('kill', function (nick, reason, channels, message) {
+/**
+ * Detecting a kill and chasing the nickname.
+ * @param  nick     [nickname of the user who is killed]
+ * @param  reason   [the reason of the kline]
+ * @param  channels [an array of all the channels the user was on]
+ * @param  message  [the error]
+ */
+vbot.addListener('kill', function(nick, reason, channels, message) {
 
-    if (nick == 'V') setTimeout(function(){ 
-        
+    if (nick == 'V') setTimeout(function() {
+
         vbot.send('nick', 'V');
 
         console.log('Nick Chased');
 
-     }, 3000);
+    }, 3000);
 
 });
 
+/**
+ * Detecting a quit and chasing the nickname.
+ * @param  nick     [nickname of the user who just quitted]
+ * @param  reason   [the reason of quitting]
+ * @param  channels [an array of all the channels the user was present in]
+ * @param  message  [the error]
+ */
 vbot.addListener('quit', function (nick, reason, channels, message) {
 
     if (nick == 'V') setTimeout(function(){ 
@@ -85,7 +99,6 @@ vbot.addListener('quit', function (nick, reason, channels, message) {
      }, 3000);
 
 });
-
 
 /**
  * The bot will give itself an operator status ( +o )
@@ -165,9 +178,29 @@ vbot.addListener('pm', function(nick, text, message) {
 
             msg = text.split(" ")
 
-            switch (msg[0]) {
+            switch (true) {
 
-                case "request":
+                case (msg[0] == "request"):
+
+                    switch (true) {
+
+                        case ((msg[1] === null) || (msg[1] === undefined)):
+
+                            vbot.notice(nick, 'The correct syntax is /msg V request <hostname> <password>');
+
+                            return
+
+                            break;
+
+                        case ((msg[2] === null) || (msg[2] === undefined)):
+
+                            vbot.notice(nick, 'The correct syntax is /msg V request <hostname> <password>');
+
+                            return
+
+                            break;
+
+                    }
 
                     var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
 
