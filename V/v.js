@@ -27,7 +27,7 @@ var con = mysql.createConnection({
 /**
  * Instantiating the bot
  */
-var vbot = new irc.Client('newyork.nationchat.org', 'V', {
+var vbot = new irc.Client('newyork.nationchat.net', 'V', {
 
     userName: 'request',
 
