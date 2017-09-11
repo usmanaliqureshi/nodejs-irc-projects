@@ -12,7 +12,7 @@ var credentials = require("./credentials.json");
 /**
  * Connecting to MySQL Database and selecting the Database
  */
-var con = mysql.createConnection({
+var con = mysql.createPool({
 
     host: "localhost",
 
@@ -204,33 +204,41 @@ vbot.addListener('pm', function(nick, text, message) {
 
                     var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
 
-                    con.query(sql, function(err, result) {
+                    con.getConnection(function (erro, connection) {
 
-                        if (err) console.log(err);
+                        if (erro) console.log(erro);
 
-                        if (typeof result != "undefined" && result != null && result.length != null && result.length > 0) {
+                        connection.query(sql, function (err, result) {
 
-                            vbot.notice(nick, 'The vhost you are requesting has been assigned to a different user. Please request a different vhost.');
+                            if (err) console.log(err);
 
-                        } else {
+                            if (typeof result != "undefined" && result != null && result.length != null && result.length > 0) {
 
-                            vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
+                                vbot.notice(nick, 'The vhost you are requesting has been assigned to a different user. Please request a different vhost.');
 
-                            vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
+                            } else {
 
-                            vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
+                                vbot.say('H', 'ADD ' + nick + ' *!*@* ' + msg[1] + ' ' + msg[2]);
 
-                            vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
+                                vbot.notice(nick, 'Congratulations, your hostname is approved successfully.');
 
-                            var sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
+                                vbot.notice(nick, 'If you want to use your hostname please type /msg H login ' + nick + ' ' + msg[2]);
 
-                            con.query(sql, function(error, result) {
+                                vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
 
-                                if (error) console.log(error);
+                                var sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
 
-                            });
+                                connection.query(sql, function (error, result) {
 
-                        }
+                                    if (error) console.log(error);
+
+                                });
+
+                            }
+
+                        });
+
+                        connection.release()
 
                     });
 
