@@ -16,6 +16,6 @@
   "license": "ISC",
   "devDependencies": {
     "irc": "^0.5.2",
-    "mysql": "^2.13.0"
+    "mysql": "github:mysqljs/mysql"
   }
 }
