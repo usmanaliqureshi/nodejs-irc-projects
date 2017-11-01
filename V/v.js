@@ -42,7 +42,7 @@ var vbot = new irc.Client('newyork.nationchat.net', 'V', {
 /**
  * Commands on successful connection to the IRC Network
  */
-vbot.addListener('registered', function() {
+vbot.addListener('registered', function () {
 
     vbot.send('oper', credentials.login, credentials.password);
 
@@ -69,9 +69,9 @@ vbot.addListener('registered', function() {
  * @param  channels [an array of all the channels the user was on]
  * @param  message  [the error]
  */
-vbot.addListener('kill', function(nick, reason, channels, message) {
+vbot.addListener('kill', function (nick, reason, channels, message) {
 
-    if (nick == 'V') setTimeout(function() {
+    if (nick == 'V') setTimeout(function () {
 
         vbot.send('nick', 'V');
 
@@ -90,13 +90,13 @@ vbot.addListener('kill', function(nick, reason, channels, message) {
  */
 vbot.addListener('quit', function (nick, reason, channels, message) {
 
-    if (nick == 'V') setTimeout(function(){ 
-        
+    if (nick == 'V') setTimeout(function () {
+
         vbot.send('nick', 'V');
 
         console.log('Nick Chased');
 
-     }, 3000);
+    }, 3000);
 
 });
 
@@ -106,7 +106,7 @@ vbot.addListener('quit', function (nick, reason, channels, message) {
  * @param  nick     [nick to detect]
  * @param  message) { if ( nick === botnick [then the bot will give itself an operator status]
  */
-vbot.addListener('join', function(channel, nick, message) {
+vbot.addListener('join', function (channel, nick, message) {
 
     if (nick === vbot.nick) {
 
@@ -123,9 +123,9 @@ vbot.addListener('join', function(channel, nick, message) {
  * @param  message    [message to be detected]
  * @return [response] [based on the command detected]
  */
-vbot.addListener('message#', function(from, to, message) {
+vbot.addListener('message#', function (from, to, message) {
 
-    vbot.whois(from, function(info) {
+    vbot.whois(from, function (info) {
 
         if ((info.nick == 'BOSS') && (info.user == 'BOSS') && (info.host == 'The.BOSS')) {
 
@@ -168,9 +168,9 @@ vbot.addListener('message#', function(from, to, message) {
  * @param  message  [message]
  * @return [notice] [based on the hostname process]
  */
-vbot.addListener('pm', function(nick, text, message) {
+vbot.addListener('pm', function (nick, text, message) {
 
-    vbot.whois(nick, function(info) {
+    vbot.whois(nick, function (info) {
 
         var result = detectuserhost(info.host, "users.nationchat.org");
 
@@ -273,7 +273,7 @@ function detectuserhost(userhost, hostmask) {
 
 }
 
-vbot.addListener('error', function(message) {
+vbot.addListener('error', function (message) {
 
     console.log('error: ', message);
 
