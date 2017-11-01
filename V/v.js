@@ -1,13 +1,13 @@
 /**
  * Including required NodeJS Modules
  */
-var irc = require("irc");
+var irc = require("irc"); // IRC Module
 
-var fs = require("fs");
+var fs = require("fs"); // File System Module
 
-var mysql = require("mysql");
+var mysql = require("mysql"); // MySQL Module
 
-var credentials = require("./credentials.json");
+var credentials = require("./credentials.json"); // JSON Data File
 
 /**
  * Connecting to MySQL Database and selecting the Database
