@@ -34,6 +34,8 @@ ndb.addListener('join', function (channel, nick, message) {
 
         ndb.send('opmode', channel, '+o', nick);
 
+        console.log('OPPED MYSELF :D');
+
     }
 
 });
