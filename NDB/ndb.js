@@ -39,3 +39,9 @@ ndb.addListener('join', function (channel, nick, message) {
     }
 
 });
+
+ndb.addListener('error', function (message) {
+
+    console.log('error: ', message);
+
+});
