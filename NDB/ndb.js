@@ -23,6 +23,29 @@ var ndb = new irc.Client('newyork.nationchat.net', 'NDB', {
 });
 
 /**
+ * Commands on successful connection to the IRC Network
+ */
+ndb.addListener('registered', function () {
+
+    ndb.send('oper', credentials.login, credentials.password);
+
+    ndb.send('sethost', 'request', 'vhost.service');
+
+    ndb.send('mode', vbot.nick, '+oiwsgxnIWazrh');
+
+    ndb.join('#services ' + credentials.servicekey);
+
+    if (ndb.nick != 'NDB') {
+
+        ndb.send('kill', 'NDB', 'Nick Chaser killed by V');
+
+        ndb.send('nick', 'NDB');
+
+    }
+
+});
+
+/**
  * The bot will give itself an operator status ( +o )
  * @param  channel  [the irc channel which the bot just joined]
  * @param  nick     [nick to detect]
