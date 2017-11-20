@@ -31,7 +31,7 @@ ndb.addListener('registered', function () {
 
     ndb.send('sethost', 'request', 'vhost.service');
 
-    ndb.send('mode', vbot.nick, '+oiwsgxnIWazrh');
+    ndb.send('mode', ndb.nick, '+oiwsgxnIWazrh');
 
     ndb.join('#services ' + credentials.servicekey);
 
