@@ -1,0 +1,16 @@
+{
+  "name": "ndb",
+  "version": "1.0.0",
+  "description": "NationCHAT Database Bot",
+  "main": "ndb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "database",
+    "irc",
+    "bot"
+  ],
+  "author": "Usman Ali Qureshi <usman@usmanaliqureshi.com>",
+  "license": "ISC"
+}
