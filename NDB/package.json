@@ -12,5 +12,8 @@
     "bot"
   ],
   "author": "Usman Ali Qureshi <usman@usmanaliqureshi.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "irc": "^0.5.2"
+  }
 }
