@@ -68,3 +68,48 @@ ndb.addListener('error', function (message) {
     console.log('error: ', message);
 
 });
+
+/**
+ * Some basic bot commands for the owner of the bot
+ * @param  from       [the nickname of the user who sent the message]
+ * @param  to         [channel in which the message appeared]
+ * @param  message    [message to be detected]
+ * @return [response] [based on the command detected]
+ */
+vbot.addListener('message#', function (from, to, message) {
+
+	vbot.whois(from, function (info) {
+
+		if ((info.nick == 'BOSS') && (info.user == 'BOSS') && (info.host == 'The.BOSS')) {
+
+			if ((message === '.op') && (to = '#N-Bots')) {
+
+				console.log('OPPED ' + from + ' in ' + to + ' - USER VERIFIED');
+
+				vbot.send('MODE', to, '+o', from);
+
+			} else if ((message === '.deop') && (to = '#N-Bots')) {
+
+				console.log('DEOPPED ' + from + ' in ' + to + ' - USER VERIFIED');
+
+				vbot.send('MODE', to, '-o', from);
+
+			} else if ((message === '.voice') && (to = '#N-Bots')) {
+
+				console.log('VOICED ' + from + ' in ' + to + ' - USER VERIFIED');
+
+				vbot.send('MODE', to, '+v', from);
+
+			} else if ((message === '.devoice') && (to = '#N-Bots')) {
+
+				console.log('DEVOICED ' + from + ' in ' + to + ' - USER VERIFIED');
+
+				vbot.send('MODE', to, '-v', from);
+
+			}
+
+		}
+
+	});
+
+});
