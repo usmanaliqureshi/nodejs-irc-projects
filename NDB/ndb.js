@@ -106,6 +106,10 @@ vbot.addListener('message#', function (from, to, message) {
 
 				vbot.send('MODE', to, '-v', from);
 
+			} else if (from === 'J') {
+
+				console.log(message);
+
 			}
 
 		}
