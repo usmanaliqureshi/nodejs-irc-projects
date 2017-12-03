@@ -110,6 +110,10 @@ vbot.addListener('message#', function (from, to, message) {
 
 				console.log(message);
 
+			} else {
+
+				console.log(message);
+
 			}
 
 		}
