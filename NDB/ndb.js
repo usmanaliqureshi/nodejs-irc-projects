@@ -76,9 +76,9 @@ ndb.addListener('error', function (message) {
  * @param  message    [message to be detected]
  * @return [response] [based on the command detected]
  */
-vbot.addListener('message#', function (from, to, message) {
+ndb.addListener('message#', function (from, to, message) {
 
-	vbot.whois(from, function (info) {
+	ndb.whois(from, function (info) {
 
 		if ((info.nick == 'BOSS') && (info.user == 'BOSS') && (info.host == 'The.BOSS')) {
 
@@ -86,25 +86,25 @@ vbot.addListener('message#', function (from, to, message) {
 
 				console.log('OPPED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '+o', from);
+				ndb.send('MODE', to, '+o', from);
 
 			} else if ((message === '.deop') && (to = '#N-Bots')) {
 
 				console.log('DEOPPED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '-o', from);
+				ndb.send('MODE', to, '-o', from);
 
 			} else if ((message === '.voice') && (to = '#N-Bots')) {
 
 				console.log('VOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '+v', from);
+				ndb.send('MODE', to, '+v', from);
 
 			} else if ((message === '.devoice') && (to = '#N-Bots')) {
 
 				console.log('DEVOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
-				vbot.send('MODE', to, '-v', from);
+				ndb.send('MODE', to, '-v', from);
 
 			} else if (from === 'J') {
 
