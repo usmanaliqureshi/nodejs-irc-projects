@@ -29,7 +29,7 @@ ndb.addListener('registered', function () {
 
     ndb.send('oper', credentials.login, credentials.password);
 
-    ndb.send('sethost', 'request', 'vhost.service');
+    ndb.send('sethost', 'user', 'database.service');
 
     ndb.send('mode', ndb.nick, '+oiwsgxnIWazrh');
 
