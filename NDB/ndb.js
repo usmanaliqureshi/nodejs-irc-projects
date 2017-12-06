@@ -7,6 +7,8 @@ var fs = require("fs"); // File System Module
 
 var mysql = require("mysql"); // MySQL Module
 
+var credentials = require("./credentials.json"); // JSON Data File
+
 /**
  * Instantiating the bot
  */
@@ -105,14 +107,6 @@ ndb.addListener('message#', function (from, to, message) {
 				console.log('DEVOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
 				ndb.send('MODE', to, '-v', from);
-
-			} else if (from === 'J') {
-
-				console.log(message);
-
-			} else {
-
-				console.log(message);
 
 			}
 
