@@ -110,6 +110,14 @@ ndb.addListener('message#', function (from, to, message) {
 
 			}
 
+		} else if( from === 'J' ) {
+
+			console.log( message );
+
+		} else {
+
+			console.log( message );
+
 		}
 
 	});
