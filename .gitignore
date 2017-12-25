@@ -71,5 +71,6 @@ Rails
 
 # Credentials File
 credentials.json
+ndb.json
 
 m.js
