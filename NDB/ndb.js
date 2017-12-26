@@ -3,16 +3,14 @@
  */
 var irc = require("irc"); // IRC Module
 
-var fs = require("fs"); // File System Module
-
 var mysql = require("mysql"); // MySQL Module
 
-var credentials = require("./credentials.json"); // JSON Data File
+var credentials = require("./ndb.json"); // JSON Data File
 
 /**
  * Instantiating the bot
  */
-var ndb = new irc.Client('newyork.nationchat.net', 'NDB', {
+var ndb = new irc.Client('newyork.nationchat.org', 'NDB', {
 
     userName: 'database',
 
@@ -20,7 +18,20 @@ var ndb = new irc.Client('newyork.nationchat.net', 'NDB', {
 
     channels: ['#services'],
 
-    autoRejoin: true
+});
+
+/**
+ * Connecting to MySQL Database and selecting the Database
+ */
+var con = mysql.createPool({
+
+	host: "localhost",
+
+	user: credentials.MySQL_USERNAME,
+
+	password: credentials.MySQL_PASSWORD,
+
+	database: credentials.MySQL_DATABASE
 
 });
 
@@ -112,7 +123,37 @@ ndb.addListener('message#', function (from, to, message) {
 
 		} else if( from === 'J' ) {
 
-			console.log( message );
+			var msg = message.split(" ");
+
+			var eventname = msg[0];
+
+			var ip = msg[3].replace(/[()]/g, '');
+
+			var userinfo = ip.split("@");
+
+			var nickname = msg[2];
+
+			var userident = userinfo[0];
+
+			var userhost = userinfo[1];
+
+			console.log( eventname + ": " + nickname + " " + userident + " " + userhost );
+
+			con.getConnection( function( erro, connection ) {
+
+				if( erro ) console.log( erro );
+
+				var sql = "INSERT INTO userbase (event, nick, ident, hostname) VALUES (" + mysql.escape( eventname ) + ", " + mysql.escape( nickname ) + ", " + mysql.escape( userident ) + ", " + mysql.escape( userhost ) + ")";
+
+				connection.query( sql, function( error, result ) {
+
+					if( error ) console.log( error );
+
+				} );
+
+				connection.release()
+
+			} );
 
 		} else {
 
