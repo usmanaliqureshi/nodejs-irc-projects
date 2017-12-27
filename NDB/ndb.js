@@ -18,6 +18,14 @@ var ndb = new irc.Client('newyork.nationchat.org', 'NDB', {
 
     channels: ['#services'],
 
+    autoRejoin: true,
+
+	floodProtection: false,
+
+	floodProtectionDelay: 1000,
+
+	stripColors: true
+
 });
 
 /**
