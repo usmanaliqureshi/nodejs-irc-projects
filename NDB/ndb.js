@@ -103,25 +103,25 @@ ndb.addListener('message#', function (from, to, message) {
 
 		if ((info.nick == 'BOSS') && (info.user == 'BOSS') && (info.host == 'The.BOSS')) {
 
-			if ((message === '.op') && (to = '#N-Bots')) {
+			if ((message === '.op') && (to = '#services')) {
 
 				console.log('OPPED ' + from + ' in ' + to + ' - USER VERIFIED');
 
 				ndb.send('MODE', to, '+o', from);
 
-			} else if ((message === '.deop') && (to = '#N-Bots')) {
+			} else if ((message === '.deop') && (to = '#services')) {
 
 				console.log('DEOPPED ' + from + ' in ' + to + ' - USER VERIFIED');
 
 				ndb.send('MODE', to, '-o', from);
 
-			} else if ((message === '.voice') && (to = '#N-Bots')) {
+			} else if ((message === '.voice') && (to = '#services')) {
 
 				console.log('VOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
 				ndb.send('MODE', to, '+v', from);
 
-			} else if ((message === '.devoice') && (to = '#N-Bots')) {
+			} else if ((message === '.devoice') && (to = '#services')) {
 
 				console.log('DEVOICED ' + from + ' in ' + to + ' - USER VERIFIED');
 
