@@ -145,7 +145,7 @@ ndb.addListener('message#', function (from, to, message) {
 
 			var userhost = userinfo[1];
 
-			console.log( eventname + ": " + nickname + " " + userident + " " + userhost );
+			//console.log( eventname + ": " + nickname + " " + userident + " " + userhost );
 
 			con.getConnection( function( erro, connection ) {
 
