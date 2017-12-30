@@ -3,8 +3,6 @@
  */
 var irc = require("irc"); // IRC Module
 
-var fs = require("fs"); // File System Module
-
 var mysql = require("mysql"); // MySQL Module
 
 var credentials = require("./credentials.json"); // JSON Data File
