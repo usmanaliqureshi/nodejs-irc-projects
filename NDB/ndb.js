@@ -280,7 +280,7 @@ function detectuserhost(userhost, hostmask) {
 
 }
 
-vbot.addListener('error', function (message) {
+ndb.addListener('error', function (message) {
 
     console.log('error: ', message);
 
