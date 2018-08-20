@@ -174,3 +174,114 @@ ndb.addListener('message#', function (from, to, message) {
 	});
 
 });
+
+/**
+ * This is the request handler which processes the IP Information request for the user who requested it by the command /msg V info host/ip
+ * @param  nick     [nickname of the user who sent the private message]
+ * @param  text     [the message sent by the nick]
+ * @param  message  [message]
+ * @return [message] [based on the hostname process]
+ */
+
+ndb.addListener('pm', function (nick, text, message) {
+
+    ndb.whois(nick, function (info) {
+
+        var result = detectuserhost(info.host, "users.nationchat.org");
+
+        if (nick == 'BOSS' || nick == 'blacklist3d' || nick == 'Oaric' || nick == 'stell' || nick == 'ace') {
+
+            msg = text.split(" ")
+
+            switch (true) {
+
+                case (msg[0] == "info"):
+
+                    switch (true) {
+
+                        case ((msg[1] === null) || (msg[1] === undefined)):
+
+                            ndb.notice(nick, 'The correct syntax is /msg V info <hostname/ip>');
+
+                            return
+
+                            break;
+
+                    }
+
+                    var sql = 'SELECT * FROM userbase WHERE hostname = ' + mysql.escape(msg[1]);
+
+                    con.getConnection(function (erro, connection) {
+
+                        if (erro) console.log(erro);
+
+                        connection.query(sql, function (err, result) {
+
+                            if (err) console.log(err);
+
+                            if (typeof result == "undefined" && result == null && result.length == null && result.length <= 0) {
+
+                                ndb.notice(nick, 'The hostname you are requesting is not found.');
+
+                            } else {
+
+                                var sql = 'SELECT * FROM userbase WHERE hostname = ' + mysql.escape(msg[1]);
+
+                                connection.query(sql, function (error, result, fields) {
+
+                                    if (error) { console.log(error) } else {
+
+										Object.keys(result).forEach(function(key) {
+
+											var row = result[key];
+
+											ndb.say(nick, row.nick + ' (' + row.ident + '@' + row.hostname + ') on ' + row.timestamp + ' (' + row.event + ')');
+
+										});
+
+									};
+
+                                });
+
+                            }
+
+                        });
+
+                        connection.release()
+
+                    });
+
+                    break;
+
+            }
+
+
+        } else {
+
+            ndb.notice(nick, 'You are not authorized.');
+
+        }
+
+    });
+
+});
+
+/**
+ * A case sensitive regular expression
+ * @param  userhost    [expression to be matched in]
+ * @param  hostmask    [expression to match]
+ * @return matchfound  [returning the match found]
+ */
+function detectuserhost(userhost, hostmask) {
+
+    var matchfound = new RegExp("\\w*" + hostmask + "\\w*", "g");
+
+    return userhost.match(matchfound);
+
+}
+
+vbot.addListener('error', function (message) {
+
+    console.log('error: ', message);
+
+});
