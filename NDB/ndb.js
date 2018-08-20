@@ -28,6 +28,8 @@ var ndb = new irc.Client('newyork.nationchat.org', 'NDB', {
 
 });
 
+ndb.setMaxListeners(0);
+
 /**
  * Connecting to MySQL Database and selecting the Database
  */
