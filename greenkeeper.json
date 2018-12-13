@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "NDB/package.json",
+        "V/package.json"
+      ]
+    }
+  }
+}
