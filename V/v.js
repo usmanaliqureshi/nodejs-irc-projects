@@ -1,16 +1,16 @@
 /**
  * Including required NodeJS Modules
  */
-var irc = require("irc"); // IRC Module
+let irc = require("irc"); // IRC Module
 
-var mysql = require("mysql"); // MySQL Module
+let mysql = require("mysql"); // MySQL Module
 
-var credentials = require("./credentials.json"); // JSON Data File
+let credentials = require("./credentials.json"); // JSON Data File
 
 /**
  * Connecting to MySQL Database and selecting the Database
  */
-var con = mysql.createPool({
+let con = mysql.createPool({
   host: credentials.MySQL_HOST,
 
   user: credentials.MySQL_USERNAME,
@@ -23,7 +23,7 @@ var con = mysql.createPool({
 /**
  * Instantiating the bot
  */
-var vbot = new irc.Client('newyork.nationchat.net', 'V', {
+let vbot = new irc.Client('newyork.nationchat.net', 'V', {
 
     userName: 'request',
 
@@ -168,7 +168,7 @@ vbot.addListener('pm', function (nick, text, message) {
 
     vbot.whois(nick, function (info) {
 
-        var result = detectuserhost(info.host, "users.nationchat.org");
+        let result = detectuserhost(info.host, "users.nationchat.org");
 
         if (result == 'users.nationchat.org') {
 
@@ -198,7 +198,7 @@ vbot.addListener('pm', function (nick, text, message) {
 
                     }
 
-                    var sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
+                    let sql = 'SELECT * FROM hostnames WHERE vhost = ' + mysql.escape(msg[1]);
 
                     con.getConnection(function (erro, connection) {
 
@@ -222,7 +222,7 @@ vbot.addListener('pm', function (nick, text, message) {
 
                                 vbot.say('#services', 'VHOST: ' + msg[1] + ' is APPROVED for ' + nick);
 
-                                var sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
+                                let sql = "INSERT INTO hostnames (nick, vhost) VALUES (" + mysql.escape(nick) + ", " + mysql.escape(msg[1]) + ")";
 
                                 connection.query(sql, function (error, result) {
 
@@ -263,7 +263,7 @@ vbot.addListener('pm', function (nick, text, message) {
  */
 function detectuserhost(userhost, hostmask) {
 
-    var matchfound = new RegExp("\\w*" + hostmask + "\\w*", "g");
+    let matchfound = new RegExp("\\w*" + hostmask + "\\w*", "g");
 
     return userhost.match(matchfound);
 

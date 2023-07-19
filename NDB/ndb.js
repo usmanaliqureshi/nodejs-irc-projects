@@ -1,16 +1,16 @@
 /**
  * Including required NodeJS Modules
  */
-var irc = require("irc"); // IRC Module
+let irc = require("irc"); // IRC Module
 
-var mysql = require("mysql"); // MySQL Module
+let mysql = require("mysql"); // MySQL Module
 
-var credentials = require("./ndb.json"); // JSON Data File
+let credentials = require("./ndb.json"); // JSON Data File
 
 /**
  * Instantiating the bot
  */
-var ndb = new irc.Client('newyork.nationchat.org', 'NDB', {
+let ndb = new irc.Client('newyork.nationchat.org', 'NDB', {
 
     userName: 'database',
 
@@ -33,7 +33,7 @@ ndb.setMaxListeners(0);
 /**
  * Connecting to MySQL Database and selecting the Database
  */
-var con = mysql.createPool({
+let con = mysql.createPool({
   host: credentials.MySQL_HOST,
 
   user: credentials.MySQL_USERNAME,
@@ -131,19 +131,19 @@ ndb.addListener('message#', function (from, to, message) {
 
 		} else if( from === 'J' ) {
 
-			var msg = message.split(" ");
+			let msg = message.split(" ");
 
-			var eventname = msg[0];
+			let eventname = msg[0];
 
-			var ip = msg[3].replace(/[()]/g, '');
+			let ip = msg[3].replace(/[()]/g, '');
 
-			var userinfo = ip.split("@");
+			let userinfo = ip.split("@");
 
-			var nickname = msg[2];
+			let nickname = msg[2];
 
-			var userident = userinfo[0];
+			let userident = userinfo[0];
 
-			var userhost = userinfo[1];
+			let userhost = userinfo[1];
 
 			//console.log( eventname + ": " + nickname + " " + userident + " " + userhost );
 
@@ -151,7 +151,7 @@ ndb.addListener('message#', function (from, to, message) {
 
 				if( erro ) console.log( erro );
 
-				var sql = "INSERT INTO userbase (event, nick, ident, hostname) VALUES (" + mysql.escape( eventname ) + ", " + mysql.escape( nickname ) + ", " + mysql.escape( userident ) + ", " + mysql.escape( userhost ) + ")";
+				let sql = "INSERT INTO userbase (event, nick, ident, hostname) VALUES (" + mysql.escape( eventname ) + ", " + mysql.escape( nickname ) + ", " + mysql.escape( userident ) + ", " + mysql.escape( userhost ) + ")";
 
 				connection.query( sql, function( error, result ) {
 
@@ -189,7 +189,7 @@ ndb.addListener('pm', function (nick, text, message) {
 
     ndb.whois(nick, function (info) {
 
-        var result = detectuserhost(info.host, "users.nationchat.org");
+        let result = detectuserhost(info.host, "users.nationchat.org");
 
         if (nick == 'BOSS' || nick == 'blacklist3d' || nick == 'Oaric' || nick == 'stell' || nick == 'ace') {
 
@@ -211,7 +211,7 @@ ndb.addListener('pm', function (nick, text, message) {
 
                     }
 
-                    var sql = 'SELECT * FROM userbase WHERE hostname = ' + mysql.escape(msg[1]);
+                    let sql = 'SELECT * FROM userbase WHERE hostname = ' + mysql.escape(msg[1]);
 
                     con.getConnection(function (erro, connection) {
 
@@ -227,7 +227,7 @@ ndb.addListener('pm', function (nick, text, message) {
 
                             } else {
 
-                                var sql = 'SELECT * FROM userbase WHERE hostname = ' + mysql.escape(msg[1]);
+                                let sql = 'SELECT * FROM userbase WHERE hostname = ' + mysql.escape(msg[1]);
 
                                 connection.query(sql, function (error, result, fields) {
 
@@ -235,7 +235,7 @@ ndb.addListener('pm', function (nick, text, message) {
 
 										Object.keys(result).forEach(function(key) {
 
-											var row = result[key];
+											let row = result[key];
 
 											ndb.say(nick, row.nick + ' (' + row.ident + '@' + row.hostname + ') on ' + row.timestamp + ' (' + row.event + ')');
 
@@ -276,7 +276,7 @@ ndb.addListener('pm', function (nick, text, message) {
  */
 function detectuserhost(userhost, hostmask) {
 
-    var matchfound = new RegExp("\\w*" + hostmask + "\\w*", "g");
+    let matchfound = new RegExp("\\w*" + hostmask + "\\w*", "g");
 
     return userhost.match(matchfound);
 
