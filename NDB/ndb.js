@@ -34,15 +34,13 @@ ndb.setMaxListeners(0);
  * Connecting to MySQL Database and selecting the Database
  */
 var con = mysql.createPool({
+  host: credentials.MySQL_HOST,
 
-	host: "localhost",
+  user: credentials.MySQL_USERNAME,
 
-	user: credentials.MySQL_USERNAME,
+  password: credentials.MySQL_PASSWORD,
 
-	password: credentials.MySQL_PASSWORD,
-
-	database: credentials.MySQL_DATABASE
-
+  database: credentials.MySQL_DATABASE,
 });
 
 /**
