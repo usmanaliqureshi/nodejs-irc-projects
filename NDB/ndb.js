@@ -157,7 +157,11 @@ ndb.addListener('message#', function (from, to, message) {
 
 				connection.query( sql, function( error, result ) {
 
-					if( error ) console.log( error );
+                    if ( error ) {
+                        console.log( error );
+                    } else {
+                        console.log( result );
+                    }
 
 				} );
 
